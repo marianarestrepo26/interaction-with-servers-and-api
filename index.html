@@ -1,12 +1,113 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>High School</title>
-  <link rel="icon" href="./assets/images/page-logo.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colegio Santa Marianita</title>
+    <link rel="icon" href="./assets/images/page-logo.png">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-  
+    <header>
+        <nav class="navbar is-info" role="navigation" aria-label="main navigation">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="#">
+                    <img src="./assets/images/page-logo.png" alt="Logo" style="max-height: 3rem;">
+                </a>
+                <span class="navbar-item title is-4 has-text-white">Colegio Santa Marianita</span>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <section class="section">
+            <div class="container">
+                <h1 class="title has-text-centered is-2 has-text-info">Gestión de Estudiantes del Curso</h1>
+                <div class="box">
+                    <h2 id="formTitle" class="title is-4 has-text-centered has-text-link">Añadir Estudiante</h2>
+                    <form id="studentForm">
+                        <input type="hidden" id="studentId">
+                    <!-- Campos del formulario -->
+                    <div class="field is-horizontal">
+                        <div class="field-body">
+                            <div class="field">
+                                <label class="label" for="name">Nombre:</label>
+                                <div class="control">
+                                    <input class="input" type="text" id="name" placeholder="Nombre del estudiante" required>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label" for="lastname">Apellido:</label>
+                                <div class="control">
+                                    <input class="input" type="text" id="lastname" placeholder="Apellido del estudiante" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field is-horizontal">
+                        <div class="field-body">
+                            <div class="field">
+                                <label class="label" for="age">Edad:</label>
+                                <div class="control">
+                                    <input class="input" type="number" id="age" placeholder="Edad" required>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label" for="grade">Grado:</label>
+                                <div class="control">
+                                    <input class="input" type="text" id="grade" placeholder="Grado del estudiante" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        <!-- Botones de acción del formulario -->
+                        <div class="field is-grouped is-grouped-centered">
+                            <div class="control">
+                                <button type="submit" id="submitBtn" class="button is-primary">
+                                    <span class="icon is-small"><i class="fas fa-plus"></i></span>
+                                    <span>Añadir Estudiante</span>
+                                </button>
+                            </div>
+                            <div class="control" id="cancelBtnContainer" style="display: none;">
+                                <button type="button" id="cancelBtn" class="button is-light">
+                                    <span class="icon is-small"><i class="fas fa-times"></i></span>
+                                    <span>Cancelar Edición</span>
+                                </button>
+                            </div>
+                        </div>
+                        <p id="errorMessage" class="help is-danger error-message" style="display: none;"></p>
+                    </form>
+                </div>
+                <hr class="has-background-grey-lighter">
+                <div class="box">
+                    <!-- Título de la grilla de estudiantes -->
+                    <h2 class="title is-4 has-text-centered has-background-primary has-text-white" style="border-radius: 12px; padding: 0.5em 0;">Listado de Estudiantes</h2>
+                    <p id="loadingMessage" class="has-text-centered"></p>
+                    <div class="table-container">
+                        <div id="studentsGrid" class="students-grid">
+                            <!-- Encabezado de la grilla -->
+                            <div class="students-grid-header has-background-primary has-text-white" style="border-radius: 12px 12px 0 0; font-weight: bold;">
+                                <span>ID</span>
+                                <span>Nombre</span>
+                                <span>Apellido</span>
+                                <span>Edad</span>
+                                <span>Grado</span>
+                            </div>
+                            <div id="studentsGridBody"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="footer has-background-info has-text-white">
+        <div class="content has-text-centered">
+            <p>
+                <strong>Colegio Santa Marianita</strong> &copy; 2025.
+            </p>
+        </div>
+    </footer>
+    <script src="./assets/JS/gestion_api.js"></script>
 </body>
 </html>
