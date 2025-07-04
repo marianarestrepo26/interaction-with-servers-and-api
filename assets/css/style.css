@@ -4,6 +4,10 @@ html, body {
     font-family: Arial, sans-serif;
 }
 
+main {
+    min-height: 100vh;
+}
+
 .navbar-brand .navbar-item {
     padding: 0 1rem;
 }
@@ -89,4 +93,5 @@ html, body {
 
 .footer {
     padding: 3rem 1.5rem 3rem;
+    bottom: 0;
 }

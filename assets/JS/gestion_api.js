@@ -1,34 +1,32 @@
-
-
-// URL de la API (json-server)
+// URL de la API
 const API_URL = 'http://localhost:3000/students';
 
 // Función corta para obtener elementos por id
 const $ = id => document.getElementById(id);
 
 // Referencias a los elementos del formulario y la grilla
-const [studentForm, studentIdInput, nameInput, lastnameInput, ageInput, majorInput, gradeInput, submitBtn, cancelBtn, cancelBtnContainer, studentsGridBody, loadingMessage, errorMessage] = [
-  'studentForm','studentId','name','lastname','age','major','grade','submitBtn','cancelBtn','cancelBtnContainer','studentsGridBody','loadingMessage','errorMessage'
+const [studentForm, studentIdInput, nameInput, lastnameInput, ageInput, gradeInput, submitBtn, cancelBtn, cancelBtnContainer, studentsGridBody, errorMessage] = [
+  'studentForm','studentId','name','lastname','age','grade','submitBtn','cancelBtn','cancelBtnContainer','studentsGridBody','errorMessage'
 ].map($);
 
 
 // Muestra un mensaje de error o información
-const showMessage = (el, msg, err=false) => {
-  el.textContent = msg;
-  el.style.display = 'block';
-  el.classList.toggle('is-danger', err);
-  el.classList.toggle('has-text-grey', !err);
+const showMessage = (element, message, error=false) => {
+  element.textContent = message;
+  element.style.display = 'block';
+  element.classList.toggle('is-danger', error);
+  element.classList.toggle('has-text-grey', !err);
 };
 
 // Oculta un mensaje
-const hideMessage = el => { el.textContent = ''; el.style.display = 'none'; };
+const hideMessage = element => { element.textContent = ''; element.style.display = 'none'; };
 
 // Referencia al título del formulario
 const formTitle = document.getElementById('formTitle');
 
 // Limpia el formulario y reinicia el título
 const clearForm = () => {
-  [studentIdInput, nameInput, lastnameInput, ageInput, majorInput, gradeInput].forEach(i=>i.value='');
+  [studentIdInput, nameInput, lastnameInput, ageInput, gradeInput].forEach(i=>i.value='');
   submitBtn.innerHTML = '<span class="icon is-small"><i class="fas fa-plus"></i></span><span>Añadir Estudiante</span>';
   cancelBtnContainer.style.display = 'none';
   hideMessage(errorMessage);
@@ -38,13 +36,13 @@ const clearForm = () => {
 
 // Genera una fila de estudiante para la grilla
 function studentRow(student) {
-  const id = student.id || 'N/A';
+  const id = student.id;
   return `
     <div>${id}</div>
-    <div>${student.name || 'N/A'}</div>
-    <div>${student.lastname || 'N/A'}</div>
-    <div>${student.age || 'N/A'}</div>
-    <div>${student.grade || 'N/A'}</div>
+    <div>${student.name}</div>
+    <div>${student.lastname}</div>
+    <div>${student.age}</div>
+    <div>${student.grade}</div>
     <div class="delete-btn-container">
       <div class="buttons are-small">
         <button class="button is-warning is-light edit-btn" data-id="${id}"><span class="icon"><i class="fas fa-edit"></i></span><span>Editar</span></button>
@@ -67,22 +65,21 @@ function displayStudents(students) {
 async function fetchAPI(url, opts) {
   const res = await fetch(url, opts);
   if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-  return res.json ? res.json() : null;
+  // Solo intenta parsear JSON si hay contenido
+  const text = await res.text();
+  return text ? JSON.parse(text) : null;
 }
 
 
 // Trae los estudiantes de la API y los muestra
 async function fetchStudents() {
-  showMessage(loadingMessage, 'Cargando estudiantes...');
   hideMessage(errorMessage);
   try {
     const students = await fetchAPI(API_URL);
     displayStudents(students);
-  } catch (e) {
-    showMessage(errorMessage, `Error al cargar estudiantes: ${e.message}`, true);
+  } catch (error) {
+    showMessage(errorMessage, `Error al cargar estudiantes: ${error.message}`, true);
     studentsGridBody.innerHTML = '<div class="no-students-message has-text-danger">No se pudieron cargar los estudiantes.</div>';
-  } finally {
-    hideMessage(loadingMessage);
   }
 }
 
